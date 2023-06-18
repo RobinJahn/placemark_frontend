@@ -1,6 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
-    import { donationService } from "../services/donation-service";
+    import { donationService } from "../../services/placemark-service.js";
 
     let email = "";
     let password = "";
@@ -10,7 +10,7 @@
         console.log(`attemting to log in email: ${email} with password: ${password}`);
         let success = await donationService.login(email, password);
         if (success) {
-            goto("/donate");
+            goto("/map");
         } else {
             email = "";
             password = "";
