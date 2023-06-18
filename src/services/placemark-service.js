@@ -1,9 +1,9 @@
-// @ts-ignore
+// @ts-nocheck
 import axios from "axios";
 import { goto } from "$app/navigation";
 import { user, latestPlacemark } from "../stores";
 
-export const donationService = {
+export const placemarkService = {
     baseUrl: "https://placemark-backend.glitch.me/",
 
     async login(email, password) {
