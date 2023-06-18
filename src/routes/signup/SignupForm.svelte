@@ -12,7 +12,7 @@
         console.log(`attemting to sign up email: ${email}`);
         let success = await placemarkService.signup(firstName, lastName, email, password);
         if (success) {
-            goto("/");
+            goto("/map");
         } else {
             errorMessage = "Error Trying to sign up";
         }

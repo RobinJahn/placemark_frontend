@@ -25,15 +25,6 @@ export const placemarkService = {
         }
     },
 
-    async logout() {
-        user.set({
-            email: "",
-            token: ""
-        });
-        axios.defaults.headers.common["Authorization"] = "";
-        localStorage.removeItem("donation");
-    },
-
     async signup(firstName, lastName, email, password) {
         try {
             const userDetails = {
@@ -43,10 +34,25 @@ export const placemarkService = {
                 password: password
             };
             await axios.post(this.baseUrl + "/api/users", userDetails);
+
+            let loginWorked = await this.login(email, password)
+            if (!loginWorked) {
+                return false;
+            }
+
             return true;
         } catch (error) {
             return false;
         }
+    },
+
+    async logout() {
+        user.set({
+            email: "",
+            token: ""
+        });
+        axios.defaults.headers.common["Authorization"] = "";
+        localStorage.removeItem("donation");
     },
 
     reload() {
