@@ -15,7 +15,7 @@ export const placemarkService = {
                     email: email,
                     token: response.data.token
                 });
-                localStorage.donation = JSON.stringify({ email: email, token: response.data.token });
+                localStorage.user = JSON.stringify({ email: email, token: response.data.token });
                 return true;
             }
             return false;
@@ -52,13 +52,13 @@ export const placemarkService = {
             token: ""
         });
         axios.defaults.headers.common["Authorization"] = "";
-        localStorage.removeItem("donation");
+        localStorage.removeItem("user");
     },
 
     reload() {
-        const donationCredentials = localStorage.donation;
-        if (donationCredentials) {
-            const savedUser = JSON.parse(donationCredentials);
+        const userCredentials = localStorage.user;
+        if (userCredentials) {
+            const savedUser = JSON.parse(userCredentials);
             user.set({
                 email: savedUser.email,
                 token: savedUser.token
@@ -70,9 +70,20 @@ export const placemarkService = {
     async getPlacemarks() {
         try {
             const response = await axios.get(this.baseUrl + "/api/placemarks");
-            console.log(response.data);
             return response.data;
         } catch (error) {
+            return [];
+        }
+    },
+
+
+    async createPlacemark(placemark) {
+        try {
+            const response = await axios.post(this.baseUrl + "/api/placemarks", placemark);
+            latestPlacemark.set(placemark);
+            return response.data;
+        }
+        catch (error) {
             return [];
         }
     }
