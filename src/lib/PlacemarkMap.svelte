@@ -2,6 +2,7 @@
     import "leaflet/dist/leaflet.css";
     import { LeafletMap } from "../services/leaflet-map";
     import { onMount } from "svelte";
+    import { placemarkService} from "../services/placemark-service.js";
 
     const mapConfig = {
         location: { lat: 52.160858, lng: -7.15242 },
@@ -13,6 +14,12 @@
         const map = new LeafletMap("donation-map", mapConfig);
         map.showZoomControl();
         map.showLayerControl();
+
+        const placemarks = await placemarkService.getPlacemarks();
+        placemarks.forEach((placemark) => {
+            map.addMarker({ lat: placemark.lat, lng: placemark.lng });
+        });
+
     });
 
 </script>

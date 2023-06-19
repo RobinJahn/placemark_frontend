@@ -66,4 +66,14 @@ export const placemarkService = {
             axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
         }
     },
+
+    async getPlacemarks() {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/placemarks");
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    }
 };
