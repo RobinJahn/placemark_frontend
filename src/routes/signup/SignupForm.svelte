@@ -9,7 +9,7 @@
     let errorMessage = "";
 
     async function signup() {
-        console.log(`attemting to sign up email: ${email}`);
+        console.log(`attempting to sign up email: ${email}`);
         let success = await placemarkService.signup(firstName, lastName, email, password);
         if (success) {
             goto("/map");
