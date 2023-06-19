@@ -1,6 +1,4 @@
 <script>
-    import "leaflet/dist/leaflet.css";
-    import {LeafletMap} from "../services/leaflet-map";
     import {onMount} from "svelte";
     import {placemarkService} from "../services/placemark-service.js";
     import {latestPlacemark} from "../stores.js";
@@ -13,6 +11,12 @@
     let map;
 
     onMount(async () => {
+        // Dynamically import leaflet.css
+        await import("leaflet/dist/leaflet.css");
+
+        // Dynamically import LeafletMap
+        const { LeafletMap } = await import("../services/leaflet-map");
+
         map = new LeafletMap("placemark-map", mapConfig);
         map.showZoomControl();
         map.addLayerGroup('Placemarks');
