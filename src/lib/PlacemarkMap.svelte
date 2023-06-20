@@ -3,12 +3,17 @@
     import {placemarkService} from "../services/placemark-service.js";
     import {latestPlacemark} from "../stores.js";
 
+    export let markerId;
+    export let setAll = false;
+
     const mapConfig = {
         location: {lat: 52.160858, lng: -7.15242},
         zoom: 8,
         minZoom: 1
     };
     let map;
+    const nearZoomFactor = 15;
+    const farZoomFactor = 8;
 
     onMount(async () => {
         // Dynamically import leaflet.css
@@ -22,20 +27,33 @@
         map.addLayerGroup('Placemarks');
         map.showLayerControl();
 
-        const placemarks = await placemarkService.getPlacemarks();
-        placemarks.forEach((placemark) => {
-            addPlacemarkMarker(map, placemark);
-        });
+        if (setAll == true) {
+            const placemarks = await placemarkService.getPlacemarks();
+            placemarks.forEach((placemark) => {
+                addPlacemarkMarker(map, placemark);
+            });
+            // get last placemark
+            const lastPlacemark = placemarks[placemarks.length - 1];
+            map.moveTo(farZoomFactor, { lat: lastPlacemark.lat, lng: lastPlacemark.lng });
+        }
+        if (setAll == false) {
+            //await a value in marker
+            const marker = await placemarkService.getPlacemark(markerId);
+            addPlacemarkMarker(map, marker)
+            map.moveTo(nearZoomFactor, { lat: marker.lat, lng: marker.lng });
+        }
     });
 
     function addPlacemarkMarker(map, placemark) {
-        map.addMarker({lat: placemark.lat, lng: placemark.lng}, placemark.name, "Placemarks");
-        map.moveTo(8, { lat: placemark.lat, lng: placemark.lng });
+        const text = `<a href='/poi/${placemark._id}'> ${placemark.name} <small>{click for details}</small></a>`;
+        map.addMarker({lat: placemark.lat, lng: placemark.lng}, text, "Placemarks");
+
     }
 
     latestPlacemark.subscribe((placemark) => {
         if (placemark && map) {
             addPlacemarkMarker(map, placemark);
+            map.moveTo(farZoomFactor, { lat: placemark.lat, lng: placemark.lng });
         }
     });
 </script>

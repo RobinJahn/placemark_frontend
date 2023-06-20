@@ -9,4 +9,4 @@
     <MainNavigator />
 </Header>
 
-<PlacemarkMap />
+<PlacemarkMap setAll={true}/>

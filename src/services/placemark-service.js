@@ -4,7 +4,8 @@ import { goto } from "$app/navigation";
 import { user, latestPlacemark } from "../stores";
 
 export const placemarkService = {
-    baseUrl: "https://placemark-backend.glitch.me/",
+    //baseUrl: "https://placemark-backend.glitch.me/",
+    baseUrl: "http://localhost:4000",
 
     async login(email, password) {
         try {
@@ -64,6 +65,15 @@ export const placemarkService = {
                 token: savedUser.token
             });
             axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
+        }
+    },
+
+    async getPlacemark(id) {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/placemarks/" + id);
+            return response.data;
+        } catch (error) {
+            return [];
         }
     },
 
