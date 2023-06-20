@@ -68,6 +68,15 @@ export const placemarkService = {
         }
     },
 
+    async getUser(user) {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/users/" + user);
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    },
+
     async getPlacemark(id) {
         try {
             const response = await axios.get(this.baseUrl + "/api/placemarks/" + id);

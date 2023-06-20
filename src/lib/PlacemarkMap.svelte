@@ -3,11 +3,11 @@
     import {placemarkService} from "../services/placemark-service.js";
     import {latestPlacemark} from "../stores.js";
 
-    export let markerId;
+    export let marker;
     export let setAll = false;
 
     const mapConfig = {
-        location: {lat: 52.160858, lng: -7.15242},
+        location: {lat: 59.3280, lng: 18.0914},
         zoom: 8,
         minZoom: 1
     };
@@ -37,15 +37,13 @@
             map.moveTo(farZoomFactor, { lat: lastPlacemark.lat, lng: lastPlacemark.lng });
         }
         if (setAll === false) {
-            //await a value in marker
-            const marker = await placemarkService.getPlacemark(markerId);
             addPlacemarkMarker(map, marker)
             map.moveTo(nearZoomFactor, { lat: marker.lat, lng: marker.lng });
         }
     });
 
     function addPlacemarkMarker(map, placemark) {
-        const text = `<a href='/poi/${placemark._id}'> ${placemark.name} <small>{click for details}</small></a>`;
+        const text = `<a href='/poi/${placemark._id}'> ${placemark.name} <br/> <small>{click for details}</small></a>`;
         map.addMarker({lat: placemark.lat, lng: placemark.lng}, text, "Placemarks");
 
     }
