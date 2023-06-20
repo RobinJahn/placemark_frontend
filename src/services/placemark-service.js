@@ -90,7 +90,10 @@ export const placemarkService = {
     async createPlacemark(placemark) {
         try {
             const response = await axios.post(this.baseUrl + "/api/placemarks", placemark);
-            latestPlacemark.set(placemark);
+            if (response.data) {
+                latestPlacemark.set(response.data);
+            }
+
             return response.data;
         }
         catch (error) {

@@ -27,7 +27,7 @@
         map.addLayerGroup('Placemarks');
         map.showLayerControl();
 
-        if (setAll == true) {
+        if (setAll === true) {
             const placemarks = await placemarkService.getPlacemarks();
             placemarks.forEach((placemark) => {
                 addPlacemarkMarker(map, placemark);
@@ -36,7 +36,7 @@
             const lastPlacemark = placemarks[placemarks.length - 1];
             map.moveTo(farZoomFactor, { lat: lastPlacemark.lat, lng: lastPlacemark.lng });
         }
-        if (setAll == false) {
+        if (setAll === false) {
             //await a value in marker
             const marker = await placemarkService.getPlacemark(markerId);
             addPlacemarkMarker(map, marker)
