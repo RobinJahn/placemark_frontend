@@ -4,8 +4,8 @@
     import { placemarkService} from "../../services/placemark-service.js";
 
     let name = "";
-    let lat = 52.160858;
-    let lng = -7.15242;
+    let lat = 59.328;
+    let lng = 18.0914;
 
     let message = "Create a new Placemark";
 
@@ -14,7 +14,7 @@
             const placemark = {
                 name: name,
                 lat: lat,
-                lng: lng
+                lng: lng,
             };
             const success = await placemarkService.createPlacemark(placemark)
             if (!success) {

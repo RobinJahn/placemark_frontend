@@ -10,13 +10,13 @@
     let id;
     let placemark;
     let user;
+    let placemarkLocation;
 
     onMount(async () => {
         id = $page.params.id;
         placemark = await placemarkService.getPlacemark(id);
+        placemarkLocation = {lat: placemark.lat, lng: placemark.lng};
         user = await placemarkService.getUser(placemark.user);
-        console.log(placemark)
-        console.log(user)
     });
 
 
@@ -40,7 +40,7 @@
             <div class="content">
                 <div class="columns">
                     <div class="column">
-                        <PlacemarkMap marker={placemark} setAll={false}/>
+                        <PlacemarkMap id="street-map" marker={placemark} setAll={false} zoom={15} height={50}/>
                     </div>
                     <div class="column">
                         <p> {placemark.description} </p>
@@ -57,6 +57,15 @@
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-half">
+                        <PlacemarkMap id="satellite-map" marker={placemark} setAll={false} zoom={15} height={50}
+                                      showLayer="Satellite"/>
+                    </div>
+                    <div class="column is-half">
+                        <PlacemarkMap id="all-marker-map" setAll={true} height={50} location={placemarkLocation}/>
                     </div>
                 </div>
             </div>

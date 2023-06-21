@@ -3,17 +3,20 @@
     import {placemarkService} from "../services/placemark-service.js";
     import {latestPlacemark} from "../stores.js";
 
+    export let id = "placemark-map";
     export let marker;
     export let setAll = false;
+    export let height = 70;
+    export let showLayer = "Terrain";
+    export let zoom = 8;
+    export let location = {lat: 59.3280, lng: 18.0914};
 
     const mapConfig = {
-        location: {lat: 59.3280, lng: 18.0914},
-        zoom: 8,
+        location: location,
+        zoom: zoom,
         minZoom: 1
     };
     let map;
-    const nearZoomFactor = 15;
-    const farZoomFactor = 8;
 
     onMount(async () => {
         // Dynamically import leaflet.css
@@ -22,7 +25,7 @@
         // Dynamically import LeafletMap
         const { LeafletMap } = await import("../services/leaflet-map");
 
-        map = new LeafletMap("placemark-map", mapConfig);
+        map = new LeafletMap(id, mapConfig, showLayer);
         map.showZoomControl();
         map.addLayerGroup('Placemarks');
         map.showLayerControl();
@@ -34,11 +37,11 @@
             });
             // get last placemark
             const lastPlacemark = placemarks[placemarks.length - 1];
-            map.moveTo(farZoomFactor, { lat: lastPlacemark.lat, lng: lastPlacemark.lng });
+            //map.moveTo(zoom, { lat: lastPlacemark.lat, lng: lastPlacemark.lng });
         }
         if (setAll === false) {
             addPlacemarkMarker(map, marker)
-            map.moveTo(nearZoomFactor, { lat: marker.lat, lng: marker.lng });
+            map.moveTo(zoom, { lat: marker.lat, lng: marker.lng });
         }
     });
 
@@ -51,9 +54,9 @@
     latestPlacemark.subscribe((placemark) => {
         if (placemark && map) {
             addPlacemarkMarker(map, placemark);
-            map.moveTo(farZoomFactor, { lat: placemark.lat, lng: placemark.lng });
+            map.moveTo(zoom, { lat: placemark.lat, lng: placemark.lng });
         }
     });
 </script>
 
-<div class="box" id="placemark-map" style="height:75vh"/>
+<div class="box" id={id} style="height:{height}vh"/>
