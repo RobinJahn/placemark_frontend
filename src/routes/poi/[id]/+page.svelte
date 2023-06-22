@@ -42,6 +42,15 @@
                     <div class="column">
                         <PlacemarkMap id="street-map" marker={placemark} setAll={false} zoom={15} height={50}/>
                     </div>
+                    <div class="column is-half">
+                        <PlacemarkMap id="satellite-map" marker={placemark} setAll={false} zoom={15} height={50}
+                                      showLayer="Satellite"/>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-half">
+                        <PlacemarkMap id="all-marker-map" setAll={true} height={50} location={placemarkLocation}/>
+                    </div>
                     <div class="column">
                         <p> {placemark.description} </p>
                         <br/>
@@ -57,15 +66,18 @@
                             </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column is-half">
-                        <PlacemarkMap id="satellite-map" marker={placemark} setAll={false} zoom={15} height={50}
-                                      showLayer="Satellite"/>
-                    </div>
-                    <div class="column is-half">
-                        <PlacemarkMap id="all-marker-map" setAll={true} height={50} location={placemarkLocation}/>
+
+                        <!-- for each placemark.img as img -->
+                        {#each placemark.image_list as img}
+                            <figure class="image is-256x256">
+                                <img src={img} alt="">
+                            </figure>
+                        {/each}
+
+                        <!--figure class="image is-256x256">
+                            <img src={placemark.image_list?.[0]} alt="">
+                        </figure-->
+
                     </div>
                 </div>
             </div>
