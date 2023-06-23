@@ -108,5 +108,18 @@ export const placemarkService = {
         catch (error) {
             return [];
         }
+    },
+
+    async updatePlacemark(placemark) {
+        try {
+            const response = await axios.put(this.baseUrl + "/api/placemarks/" + placemark._id, placemark);
+            if (response.data) {
+                latestPlacemark.set(response.data);
+            }
+            return response.data;
+        }
+        catch (error) {
+            return [];
+        }
     }
 };
