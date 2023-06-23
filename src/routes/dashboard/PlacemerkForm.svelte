@@ -15,6 +15,8 @@
                 name: name,
                 lat: lat,
                 lng: lng,
+                description: "Enter a description here!",
+                image_list: [],
             };
             const success = await placemarkService.createPlacemark(placemark)
             if (!success) {
