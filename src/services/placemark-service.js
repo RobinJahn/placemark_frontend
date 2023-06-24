@@ -121,5 +121,20 @@ export const placemarkService = {
         catch (error) {
             return [];
         }
+    },
+
+    async uploadImage(id, image) {
+        const imageWithId = {
+            id : id,
+            image : image
+        };
+
+        try {
+            const response = await axios.post(this.baseUrl + '/api/placemarks/' + id + "/images", imageWithId);
+
+            console.log('Image uploaded successfully', response.data);
+        } catch (err) {
+            console.error('Image upload failed', err);
+        }
     }
 };

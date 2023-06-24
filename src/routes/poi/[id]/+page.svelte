@@ -5,6 +5,7 @@
     import {placemarkService} from "../../../services/placemark-service.js";
     import MainNavigator from "$lib/MainNavigator.svelte";
     import Header from "$lib/Header.svelte";
+    import ImageSelect from "$lib/ImageSelect.svelte";
 
     let id;
     let placemark;
@@ -99,7 +100,7 @@
                         <div class="column is-half">
                             <PlacemarkMap id="all-marker-map" setAll={true} height={50} location={placemarkLocation}/>
                         </div>
-                        <div class="column">
+                        <div class="column is-half">
                             <p contenteditable={isEditable} on:input={updateDescriptionValue}> {descriptionText} </p>
                             <br/>
                             <table class="table is-fullwidth">
@@ -115,17 +116,15 @@
                                 </tbody>
                             </table>
 
-                            <!-- for each placemark.img as img -->
+                            {#if isEditable}
+                                <ImageSelect fileName="Select a File"/>
+                            {/if}
+
                             {#each placemark.image_list as img}
                                 <figure class="image is-256x256">
                                     <img src={img} alt="">
                                 </figure>
                             {/each}
-
-                            <!--figure class="image is-256x256">
-                                <img src={placemark.image_list?.[0]} alt="">
-                            </figure-->
-
                         </div>
                     </div>
                 </div>
