@@ -16,13 +16,14 @@
         console.log("uploading");
         //get id from path
         const id = $page.params.id;
-        let result = placemarkService.uploadImage(id, files);
 
         let formData = new FormData();
 
-        console.log("files", files);
-        formData.append('file', files[0]);
+        console.log("files:", files);
+        formData.append("image", files[0]);
+        console.log("formData:", formData);
 
+        let result = placemarkService.uploadImage(id, formData);
 
         console.log("Upload Result:", result);
         //TODO: render success and failure

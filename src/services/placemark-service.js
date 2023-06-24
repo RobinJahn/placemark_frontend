@@ -123,18 +123,18 @@ export const placemarkService = {
         }
     },
 
-    async uploadImage(id, image) {
-        const imageWithId = {
-            id : id,
-            image : image
-        };
-
+    async uploadImage(id, fromdata) {
         try {
-            const response = await axios.post(this.baseUrl + '/api/placemarks/' + id + "/images", imageWithId);
+            await axios.post(`${this.baseUrl  }/api/addImage/${  id}` , fromdata, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            return true;
 
-            console.log('Image uploaded successfully', response.data);
-        } catch (err) {
-            console.error('Image upload failed', err);
+        } catch (error) {
+            console.log(error)
+            return null;
         }
     }
 };
