@@ -9,7 +9,7 @@
         setTimeout(() => {
             console.log("files", files);
             fileName  = URL.createObjectURL(files[0]);
-        }, 1000);
+        }, 100);
     }
 
     function upload() {
@@ -18,14 +18,18 @@
         const id = $page.params.id;
 
         let formData = new FormData();
-
-        console.log("files:", files);
         formData.append("image", files[0]);
-        console.log("formData:", formData);
 
         let result = placemarkService.uploadImage(id, formData);
 
-        console.log("Upload Result:", result);
+        if (result) {
+            console.log("success");
+        } else {
+            console.log("failure");
+        }
+
+
+
         //TODO: render success and failure
         //TODO: update site
     }
