@@ -134,7 +134,7 @@ export const placemarkService = {
             return result.data;
         } catch (error) {
             console.log(error)
-            return null;
+            return [];
         }
     },
 
@@ -148,7 +148,7 @@ export const placemarkService = {
             return result.data;
         } catch (error) {
             console.log(error)
-            return null;
+            return [];
         }
     }
 };

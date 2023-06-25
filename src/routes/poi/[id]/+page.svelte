@@ -16,8 +16,13 @@
 
     let isEditable = false;
 
-    let titleText;
-    let descriptionText;
+    let editableValuesList = {
+        "title": null,
+        "description": null,
+        "category": null,
+        "lat": null,
+        "lng": null
+    }
 
     let showMessageImageUploadStatus = false;
     let imageUploadSuccess = false;
@@ -51,32 +56,35 @@
 
         placemark = await placemarkService.getPlacemark(id);
         placemarkLocation = {lat: placemark.lat, lng: placemark.lng};
-        titleText = placemark.name;
-        descriptionText = placemark.description;
+
+        editableValuesList["title"] = placemark.name;
+        editableValuesList["description"] = placemark.description;
+        editableValuesList["category"] = placemark.category;
+        editableValuesList["lat"] = placemark.lat;
+        editableValuesList["lng"] = placemark.lng;
 
         user = await placemarkService.getUser(placemark.user);
     }
 
-    function toggleEditable() {
+    async function toggleEditable() {
         isEditable = !isEditable;
         //first make it not editable, then update the placemark
 
         if (!isEditable) {
-            placemark.name = titleText;
-            placemark.description = descriptionText;
-            placemarkService.updatePlacemark(id , {
-                name: placemark.name,
-                description: placemark.description
+            placemark = await placemarkService.updatePlacemark(id , {
+                name: editableValuesList["title"],
+                description: editableValuesList["description"],
+                category: editableValuesList["category"],
+                lat: editableValuesList["lat"],
+                lng: editableValuesList["lng"]
             });
+
         }
     }
 
-    function updateTitleValue(event) {
-        titleText = event.target.textContent;
-    }
-
-    function updateDescriptionValue(event) {
-        descriptionText = event.target.textContent;
+    function updateValues(event) {
+        const id = event.target.id;
+        editableValuesList[id] = event.target.innerText;
     }
 
     async function deleteImage(img) {
@@ -103,9 +111,9 @@
     {#if placemark && user}
         {#each [placemark] as p (p)}
             <header class="card-header">
-                <p class="card-header-title is-size-3 has-text-centered is-centered" contenteditable={isEditable}
-                   on:input={updateTitleValue}>
-                    {titleText}
+                <p id="title" class="card-header-title is-size-3 has-text-centered is-centered" contenteditable={isEditable}
+                   on:input={updateValues}>
+                    {editableValuesList["title"]}
                 </p>
 
                 <button class="button my-auto mr-3" on:click={toggleEditable}>
@@ -118,33 +126,55 @@
             </header>
 
             <div class="card-content">
-
                 <div class="content">
                     <div class="columns">
+
                         <div class="column">
                             <PlacemarkMap id="street-map" marker={p} setAll={false} zoom={15} height={50}/>
                         </div>
+
                         <div class="column is-half">
                             <PlacemarkMap id="satellite-map" marker={p} setAll={false} zoom={15} height={50} showLayer="Satellite"/>
                         </div>
+
                     </div>
                     <div class="columns">
+
                         <div class="column is-half">
                             <PlacemarkMap id="all-marker-map" setAll={true} height={50} location={placemarkLocation}/>
                         </div>
+
                         <div class="column is-half">
-                            <p contenteditable={isEditable} on:input={updateDescriptionValue}> {descriptionText} </p>
+                            <p id="description" contenteditable={isEditable} on:input={updateValues}> {editableValuesList["description"] } </p>
+
                             <br/>
-                            <table class="table is-fullwidth">
+
+                            <p> Category: <span id="category" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["category"]}</span> </p>
+
+                            <table class="table is-fullwidth table is-bordered table is-striped">
                                 <tbody>
-                                <tr>
-                                    <td>Owner</td>
-                                    <td>{user.firstName + user.lastName}</td>
-                                </tr>
-                                <tr>
-                                    <td>e-Mail</td>
-                                    <td>{user.email}</td>
-                                </tr>
+                                    <tr>
+                                        <td>Latitude</td>
+                                        <td id="lat" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lat"]}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Longitude</td>
+                                        <td id="lng" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lng"]}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <table class="table is-fullwidth table is-bordered table is-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>Owner</td>
+                                        <td>{user.firstName + user.lastName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>e-Mail</td>
+                                        <td>{user.email}</td>
+                                    </tr>
                                 </tbody>
                             </table>
 
@@ -174,6 +204,7 @@
                                 {/if}
                             {/each}
                         </div>
+
                     </div>
                 </div>
             </div>
