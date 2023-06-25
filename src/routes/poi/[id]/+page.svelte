@@ -1,11 +1,13 @@
 <script>
     import {page} from '$app/stores';
-    import {onMount} from 'svelte';
+    import {onDestroy, onMount} from 'svelte';
     import PlacemarkMap from "$lib/PlacemarkMap.svelte";
     import {placemarkService} from "../../../services/placemark-service.js";
     import MainNavigator from "$lib/MainNavigator.svelte";
     import Header from "$lib/Header.svelte";
     import ImageSelect from "$lib/ImageSelect.svelte";
+    import {imageUploadSuccessful} from "../../../stores.js";
+    import {get} from "svelte/store";
 
     let id;
     let placemark;
@@ -17,7 +19,32 @@
     let titleText;
     let descriptionText;
 
+    let showMessageImageUploadStatus = false;
+    let imageUploadSuccess = false;
+
     onMount(load);
+
+    let unsubscribe = imageUploadSuccessful.subscribe(value => {
+        console.log(value);
+        if (value) {
+            if (value.success === false) {
+                imageUploadSuccess = false;
+            }
+            else {
+                placemark = get(imageUploadSuccessful);
+                imageUploadSuccess = true;
+            }
+            imageUploadSuccessful.set(null);
+            showMessageImageUploadStatus = true;
+            setTimeout(() => {
+                showMessageImageUploadStatus = false;
+            }, 5000);
+        }
+    });
+
+    onDestroy(() => {
+        unsubscribe();
+    });
 
     async function load() {
         id = $page.params.id;
@@ -117,10 +144,10 @@
                             </table>
 
                             {#if isEditable}
-                                <ImageSelect fileName="Select a File"/>
+                                <ImageSelect fileName="Select a File" showMessageImageUploadStatus={showMessageImageUploadStatus} imageUploadSuccess={imageUploadSuccess}/>
                             {/if}
 
-                            {#each placemark.image_list as img}
+                            {#each p.image_list as img}
                                 <figure class="image is-256x256">
                                     <img src={img} alt="">
                                 </figure>

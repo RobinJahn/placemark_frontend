@@ -125,13 +125,12 @@ export const placemarkService = {
 
     async uploadImage(id, fromdata) {
         try {
-            await axios.post(this.baseUrl + "/api/placemarks/" + id + "/addImage", fromdata, {
+            let result = await axios.post(this.baseUrl + "/api/placemarks/" + id + "/addImage", fromdata, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             });
-            return true;
-
+            return result.data;
         } catch (error) {
             console.log(error)
             return null;

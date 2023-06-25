@@ -4,12 +4,12 @@
     import {latestPlacemark} from "../stores.js";
 
     export let id = "placemark-map";
-    export let marker;
+    export let marker = null;
     export let setAll = false;
     export let height = 70;
     export let showLayer = "Terrain";
     export let zoom = 8;
-    export let location;
+    export let location = null;
 
 
     const mapConfig = {

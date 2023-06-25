@@ -1,9 +1,13 @@
 <script>
     import {placemarkService} from "../services/placemark-service.js";
     import {page} from "$app/stores";
+    import {imageUploadSuccessful} from "../stores.js";
+    import {get} from "svelte/store";
 
     export let fileName = "Image Name";
     let files;
+    export let showMessageImageUploadStatus = false;
+    export let imageUploadSuccess;
 
     function handleFileChange(event) {
         setTimeout(() => {
@@ -12,7 +16,7 @@
         }, 100);
     }
 
-    function upload() {
+    async function upload() {
         console.log("uploading");
         //get id from path
         const id = $page.params.id;
@@ -20,22 +24,35 @@
         let formData = new FormData();
         formData.append("image", files[0]);
 
-        let result = placemarkService.uploadImage(id, formData);
+        let result = await placemarkService.uploadImage(id, formData);
+
+        files = null;
 
         if (result) {
             console.log("success");
+            imageUploadSuccessful.set(result);
         } else {
             console.log("failure");
+            imageUploadSuccessful.set({success: false});
         }
-
-
-
-        //TODO: render success and failure
-        //TODO: update site
     }
 </script>
 
 <div class="box p-3">
+    {#if showMessageImageUploadStatus}
+        {#if imageUploadSuccess}
+            <div class="notification is-success">
+                <button class="delete"></button>
+                Image uploaded successfully!
+            </div>
+        {:else}
+            <div class="notification is-danger">
+                <button class="delete"></button>
+                Image upload failed!
+            </div>
+        {/if}
+    {/if}
+
     {#if files && files.length > 0}
         <img src={fileName} alt="Selected"/>
 
