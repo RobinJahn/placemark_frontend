@@ -13,10 +13,12 @@
         if (name && lat && lng) {
             const placemark = {
                 name: name,
+                description: "Enter a description here!",
+                category: "Other",
+                image_list: [],
+
                 lat: lat,
                 lng: lng,
-                description: "Enter a description here!",
-                image_list: [],
             };
             const success = await placemarkService.createPlacemark(placemark)
             if (!success) {
