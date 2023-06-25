@@ -110,9 +110,9 @@ export const placemarkService = {
         }
     },
 
-    async updatePlacemark(placemark) {
+    async updatePlacemark(id, placemark) {
         try {
-            const response = await axios.put(this.baseUrl + "/api/placemarks/" + placemark._id, placemark);
+            const response = await axios.put(this.baseUrl + "/api/placemarks/" + id, placemark);
             if (response.data) {
                 latestPlacemark.set(response.data);
             }
@@ -128,6 +128,20 @@ export const placemarkService = {
             let result = await axios.post(this.baseUrl + "/api/placemarks/" + id + "/addImage", fromdata, {
                 headers: {
                     "Content-Type": "multipart/form-data"
+                }
+            });
+            return result.data;
+        } catch (error) {
+            console.log(error)
+            return null;
+        }
+    },
+
+    async deleteImage(id, imageUrl) {
+        try {
+            let result = await axios.delete(this.baseUrl + "/api/placemarks/" + id + "/deleteImage", {
+                data: {
+                    imageUrl: imageUrl
                 }
             });
             return result.data;

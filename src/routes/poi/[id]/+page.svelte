@@ -25,7 +25,6 @@
     onMount(load);
 
     let unsubscribe = imageUploadSuccessful.subscribe(value => {
-        console.log(value);
         if (value) {
             if (value.success === false) {
                 imageUploadSuccess = false;
@@ -60,13 +59,12 @@
 
     function toggleEditable() {
         isEditable = !isEditable;
-
         //first make it not editable, then update the placemark
+
         if (!isEditable) {
             placemark.name = titleText;
             placemark.description = descriptionText;
-            placemarkService.updatePlacemark({
-                id: placemark.id,
+            placemarkService.updatePlacemark(id , {
                 name: placemark.name,
                 description: placemark.description
             });
@@ -79,6 +77,13 @@
 
     function updateDescriptionValue(event) {
         descriptionText = event.target.textContent;
+    }
+
+    async function deleteImage(img) {
+        let result = await placemarkService.deleteImage(placemark._id, img);
+        if (result) {
+            placemark = result;
+        }
     }
 
     $: {
@@ -148,9 +153,25 @@
                             {/if}
 
                             {#each p.image_list as img}
-                                <figure class="image is-256x256">
-                                    <img src={img} alt="">
-                                </figure>
+                                {#if isEditable}
+                                    <div class="card my-3 py-3">
+                                        <div class="card-image">
+                                            <figure class="image is-256x256">
+                                                <img src={img} alt="">
+                                            </figure>
+                                        </div>
+                                        <div class="card-content">
+                                            <button class="button is-danger ml-2" on:click={() => deleteImage(img)}>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                {/if}
+                                {#if !isEditable}
+                                    <figure class="image is-256x256">
+                                        <img src={img} alt="">
+                                    </figure>
+                                {/if}
                             {/each}
                         </div>
                     </div>
