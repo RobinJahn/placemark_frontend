@@ -30,17 +30,29 @@
 
         map = new LeafletMap(id, mapConfig, showLayer);
         map.showZoomControl();
-        map.addLayerGroup('Placemarks');
-        map.showLayerControl();
 
         if (setAll === true) {
             const placemarks = await placemarkService.getPlacemarks();
+
+
+            let categories = [];
+            placemarks.forEach((placemark) => {
+                if (!categories.includes(placemark.category)) {
+                    categories.push(placemark.category);
+                }
+            });
+
+            for (let i = 0; i < categories.length; i++) {
+                map.addLayerGroup(categories[i]);
+            }
+            map.showLayerControl();
+
+
             placemarks.forEach((placemark) => {
                 addPlacemarkMarker(map, placemark);
             });
-            // get last placemark
-            const lastPlacemark = placemarks[placemarks.length - 1];
 
+            const lastPlacemark = placemarks[placemarks.length - 1];
             if (!location || mapConfig.location !== location) {
                 map.moveTo(zoom, {lat: lastPlacemark.lat, lng: lastPlacemark.lng});
             }
@@ -53,8 +65,8 @@
 
     function addPlacemarkMarker(map, placemark) {
         const text = `<a href='/poi/${placemark._id}'> ${placemark.name} <br/> <small>{click for details}</small></a>`;
-        map.addMarker({lat: placemark.lat, lng: placemark.lng}, text, "Placemarks");
 
+        map.addMarker({lat: placemark.lat, lng: placemark.lng}, text, placemark.category);
     }
 
     latestPlacemark.subscribe((placemark) => {
