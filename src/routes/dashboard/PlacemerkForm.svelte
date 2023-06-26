@@ -4,6 +4,7 @@
     import { placemarkService} from "../../services/placemark-service.js";
 
     let name = "";
+    let category = "";
     let lat = 59.328;
     let lng = 18.0914;
 
@@ -14,7 +15,7 @@
             const placemark = {
                 name: name,
                 description: "Enter a description here!",
-                category: "Other",
+                category: category ? category : "Other",
                 image_list: [],
 
                 lat: lat,
@@ -35,7 +36,11 @@
 <form on:submit|preventDefault={createPlacemerk}>
     <div class="field">
         <label class="label" for="name">Enter Name</label>
-        <input bind:value={name} class="input" id="name" name="name" type="text" />
+        <input bind:value={name} class="input" id="name" name="name" type="text" placeholder="My new placemark!" />
+    </div>
+    <div class="field">
+        <label class="label" for="category">Enter Category</label>
+        <input bind:value={category} class="input" id="category" name="category" type="text" placeholder="Other" />
     </div>
     <Coordinates bind:lat bind:lng />
     <div class="field">

@@ -18,6 +18,7 @@
         minZoom: 1
     };
     let map;
+    let categories = [];
 
     onMount(load);
 
@@ -34,8 +35,6 @@
         if (setAll === true) {
             const placemarks = await placemarkService.getPlacemarks();
 
-
-            let categories = [];
             placemarks.forEach((placemark) => {
                 if (!categories.includes(placemark.category)) {
                     categories.push(placemark.category);
@@ -58,7 +57,7 @@
             }
         }
         if (setAll === false) {
-            addPlacemarkMarker(map, marker)
+            addPlacemarkMarker(map, marker);
             map.moveTo(zoom, { lat: marker.lat, lng: marker.lng });
         }
     }
@@ -71,6 +70,11 @@
 
     latestPlacemark.subscribe((placemark) => {
         if (placemark && map) {
+            // if placemark has new category, add it to map
+            if (!categories.includes(placemark.category)) {
+                map.addLayerGroup(placemark.category);
+            }
+
             addPlacemarkMarker(map, placemark);
             map.moveTo(zoom, { lat: placemark.lat, lng: placemark.lng });
         }
