@@ -6,8 +6,8 @@ import { user, latestPlacemark } from "../stores";
 
 export const placemarkService = {
     // baseUrl: "https://charmed-crystalline-allosaurus.glitch.me/",
-    // baseUrl: "http://localhost:4000",
-    baseUrl: "https://placemark-backend.onrender.com",
+    baseUrl: "http://localhost:4000",
+    // baseUrl: "https://placemark-backend.onrender.com",
 
     async login(email, password) {
         try {
