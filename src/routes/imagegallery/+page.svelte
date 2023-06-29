@@ -1,6 +1,9 @@
 <script>
     import {placemarkService} from "../../services/placemark-service.js";
     import {onMount} from "svelte";
+    import MainNavigator from "$lib/MainNavigator.svelte";
+    import Header from "$lib/Header.svelte";
+    import ImageGallery from "./ImageGallery.svelte";
 
     let categoryAndImages = {};
 
@@ -26,23 +29,17 @@
     }
 </script>
 
-<!-- show all Images per category with bulma -->
+
+<Header>
+    <MainNavigator/>
+</Header>
+
+
 <div class="box">
     {#each Object.keys(categoryAndImages) as category}
-        <div class="columns">
-            <div class="column">
-                <h1 class="title">{category}</h1>
-            </div>
-
-            <div class="column">
-                <div class="columns is-multiline">
-                    {#each categoryAndImages[category] as image}
-                    <div class="column is-one-quarter">
-                        <img src={image} alt="image" class="image is-full-size">
-                    </div>
-                    {/each}
-                </div>
-            </div>
-        </div>
+        <section class="box">
+            <h1 class="title">{category}</h1>
+            <ImageGallery images={categoryAndImages[category]}></ImageGallery>
+        </section>
     {/each}
 </div>
