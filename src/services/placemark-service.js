@@ -184,5 +184,18 @@ export const placemarkService = {
         } catch (error) {
             return [];
         }
-    }
+    },
+
+    async getStatistics(type) {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/statistics", {
+                params: {
+                    type: type
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    },
 };
