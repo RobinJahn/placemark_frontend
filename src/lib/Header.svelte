@@ -4,7 +4,7 @@
 </script>
 
 <div class="columns is-vcentered">
-    <div class="column is-two-thirds">
+    <div class="column">
         <TitleBar title={'GlobeLens'} subTitle={'Sign up or Log in'} />
     </div>
     <div class="column">

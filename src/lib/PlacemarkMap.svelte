@@ -52,8 +52,11 @@
             });
 
             const lastPlacemark = placemarks[placemarks.length - 1];
-            if (!location || mapConfig.location !== location) {
+            if (lastPlacemark && !mapConfig.location) {
                 map.moveTo(zoom, {lat: lastPlacemark.lat, lng: lastPlacemark.lng});
+            }
+            else {
+                map.moveTo(zoom, mapConfig.location);
             }
         }
         if (setAll === false) {
