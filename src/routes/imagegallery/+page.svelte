@@ -37,9 +37,11 @@
 
 <div class="box">
     {#each Object.keys(categoryAndImages) as category}
+        {#if categoryAndImages[category] && categoryAndImages[category].length > 0}
         <section class="box">
-            <h1 class="title">{category}</h1>
-            <ImageGallery images={categoryAndImages[category]}></ImageGallery>
-        </section>
+                <h1 class="title">{category}</h1>
+                <ImageGallery images={categoryAndImages[category]}></ImageGallery>
+            </section>
+        {/if}
     {/each}
 </div>
