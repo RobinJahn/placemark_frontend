@@ -12,9 +12,10 @@
         labels: ["1"],
         datasets: [
             {
-                values: [2]
+                values: [2],
             }
-        ]
+        ],
+
     };
 
     let dataForHeatmap = {

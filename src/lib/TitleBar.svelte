@@ -3,7 +3,7 @@
     export let subTitle = '';
 </script>
 
-<div class="box has-text-centered columns m-2">
+<div class="has-text-centered columns my-3">
     <div class="column">
         <img src="/Logo.png" width="60" alt="img"/>
     </div>
