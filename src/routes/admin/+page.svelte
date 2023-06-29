@@ -9,10 +9,18 @@
     let totalUsers = 0;
     let totalPlacemarks = 0;
 
+    let chartType = "bar";
+    let chartTypeSelected = chartType;
+    let chartTypes = ["line", "bar", "pie", "percentage", "heatmap"];
+
     onMount( async () => {
         totalUsers = (await placemarkService.getPlacemarks()).length;
         totalPlacemarks = (await placemarkService.getPlacemarks()).length;
     });
+
+    $: if (chartTypeSelected) {
+        chartType = chartTypeSelected;
+    }
 
 </script>
 
@@ -21,16 +29,54 @@
 </Header>
 
 
-<div class="columns">
-    <div class="column box m-3 has-text-centered">
-        <Statistics id="NewUserData" type="user" title="New Users per Day"/>
-        <h1 class="title is-5 my-3">Total Users: {totalUsers}</h1>
-    </div>
-    <div class="column box m-3  has-text-centered">
-        <Statistics id="NewPlacemarksData" type="placemark"  title="New Placemarks per Day"/>
-        <h1 class="title is-5 my-3">Total Placemarks: {totalPlacemarks}</h1>
+<div class="box m-3">
+    <h1 class="title is-3">Statistics</h1>
+    <div class="columns is-vcentered">
+        <div class="column is-one-quarter">
+            <h1 class="subtitle is-5">Select Chart Type</h1>
+        </div>
+        <div class="field column">
+            <div class="control">
+                <div class="select is-fullwidth">
+                    <select bind:value={chartTypeSelected}>
+                        <option disabled selected value="">Select an item</option>
+                        {#each chartTypes as item (item)}
+                            <option>{item}</option>
+                        {/each}
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+{#key chartType}
+    {#if chartType === "heatmap"}
+        <div class="box m-3 has-text-centered is-full-width">
+            <Statistics type="user" title="New Users per Day" chartType={chartType}/>
+
+            <h1 class="title is-5 my-3">Total Users: {totalUsers}</h1>
+        </div>
+        <div class="box m-3  has-text-centered">
+            <Statistics type="placemark"  title="New Placemarks per Day" chartType={chartType}/>
+
+            <h1 class="title is-5 my-3">Total Placemarks: {totalPlacemarks}</h1>
+        </div>
+    {:else}
+        <div class="columns m-1">
+            <div class="column box m-3 has-text-centered">
+                <Statistics type="user" title="New Users per Day" chartType={chartType}/>
+
+                <h1 class="title is-5 my-3">Total Users: {totalUsers}</h1>
+            </div>
+            <div class="column box m-3  has-text-centered">
+                <Statistics type="placemark"  title="New Placemarks per Day" chartType={chartType}/>
+
+                <h1 class="title is-5 my-3">Total Placemarks: {totalPlacemarks}</h1>
+            </div>
+        </div>
+    {/if}
+{/key}
 
 <UserList />
 
