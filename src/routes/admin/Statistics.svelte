@@ -55,9 +55,7 @@
     }
 </script>
 
-<div class="columns">
-    <div class="column box has-text-centered">
-        <h1 class="title is-4"> {title}</h1>
-        <Chart {data} type="line" />
-    </div>
+<div class="m-3 has-text-centered">
+    <h1 class="title is-4"> {title}</h1>
+    <Chart {data} type="line" />
 </div>
