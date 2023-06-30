@@ -35,19 +35,26 @@
         end: new Date(2022, 11, 31),
     };
 
+    onMount(load);
 
-    onMount(async () => {
+    async function load() {
         const newData = await prepareData();
 
-        const newHeatmapData = await prepareHeatmapData(data);
+        const newHeatmapData = await prepareHeatmapData(newData);
         dataForHeatmap = newHeatmapData;
+        console.log(dataForHeatmap);
+
+        if (newData.labels.length === 0) {
+            data = newData;
+            return;
+        }
 
         const forecast = await forecastData(newData);
 
-        const combinedData = combineData(newData, forecast);
+        const combinedData = combineData(newData, forecast, chartType);
 
         data = combinedData;
-    });
+    }
 
     async function prepareData() {
         const statistics = await placemarkService.getStatistics(type)
@@ -85,7 +92,10 @@
 
         for (let i = 0; i < data.labels.length; i++) {
             let dateComponents = data.labels[i].split(".");
-            let date = new Date(dateComponents[2], dateComponents[1] - 1, dateComponents[0]);
+            let date = new Date(
+              dateComponents[2],
+              dateComponents[1] - 1,
+              dateComponents[0]);
             newData.dataPoints[
               Math.floor(date.getTime() / 1000)
               ] = data.datasets[0].values[i];
@@ -107,17 +117,18 @@
 
         let result = regression.linear(dataForRegression);
 
-        let nextWeekPredictions = [];
-        for (let i=rangeOfForecast+1; i<=rangeOfForecast*2; i++) {
+        let predictions = [];
+        for (let i=1; i<=rangeOfForecast*2; i++) {
             let prediction = result.predict(i);
-            nextWeekPredictions.push(
+            predictions.push(
               Math.max(prediction[1], 0)
             );
         }
 
+        let nextWeekLabels = [];
+        nextWeekLabels = nextWeekLabels.concat(data.labels);
 
         let dateTokens = data.labels[data.labels.length-1].split(".");
-        let nextWeekLabels = [];
         for (let i=0; i<rangeOfForecast; i++) {
             let date = new Date(
               dateTokens[2],
@@ -131,7 +142,7 @@
             labels: nextWeekLabels,
             datasets: [
                 {
-                    values: nextWeekPredictions,
+                    values: predictions,
                 }
             ],
             yMarkers: [
@@ -146,23 +157,39 @@
         return dataToReturn;
     }
 
-    function combineData(newData, forecast) {
+    function combineData(newData, forecast, chartType) {
         const combinedData = JSON.parse(JSON.stringify(emptyData));
-        combinedData.labels = newData.labels.concat(forecast.labels);
+        combinedData.labels = forecast.labels;
 
         const halfSize = combinedData.labels.length / 2;
 
+
         for (let i = 0; i < combinedData.labels.length; i++) {
-            if (i < halfSize) {
-                combinedData.datasets[0].values.push(
-                  newData.datasets[0].values[i]
-                );
-                combinedData.datasets[1].values.push(0);
-            } else {
-                combinedData.datasets[0].values.push(0);
+
+            if (chartType === "line") {
+                if (i < halfSize) {
+                    combinedData.datasets[0].values.push(
+                      newData.datasets[0].values[i]
+                    );
+                } else {
+                    combinedData.datasets[0].values.push(forecast.datasets[0].values[i]);
+                }
                 combinedData.datasets[1].values.push(
-                  forecast.datasets[0].values[i - halfSize]
+                  forecast.datasets[0].values[i]
                 );
+            } else {
+                if (i < halfSize) {
+                    combinedData.datasets[0].values.push(
+                      newData.datasets[0].values[i]
+                    );
+                    combinedData.datasets[1].values.push(0);
+                } else {
+                    combinedData.datasets[0].values.push(0);
+                    combinedData.datasets[1].values.push(
+                      forecast.datasets[0].values[i]
+                    );
+                }
+
             }
         }
         return combinedData;
@@ -170,6 +197,7 @@
 
     $: {
         chartType = chartType;
+        load();
     }
 
 </script>
@@ -177,7 +205,9 @@
 <div class="m-3 has-text-centered">
     <h1 class="title is-4"> {title}</h1>
     {#if chartType === "heatmap"}
-        <Chart data="{dataForHeatmap}" type="heatmap" />
+        {#each [dataForHeatmap] as data (data)}
+            <Chart {data} type="heatmap" />
+        {/each}
     {:else}
         <Chart data="{data}" colors="{colors}" type={chartType} />
     {/if}
