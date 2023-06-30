@@ -9,7 +9,7 @@
     let totalUsers = 0;
     let totalPlacemarks = 0;
 
-    let chartType = "bar";
+    let chartType = "line";
     let chartTypeSelected = chartType;
     let chartTypes = ["line", "bar", "pie", "percentage", "heatmap"];
     const colors = ['#8F00FF', '#d200ff'];
