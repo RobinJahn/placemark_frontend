@@ -15,8 +15,7 @@
   };
 
   let attributes = [
-    { icon: 'fa-cloud-sun', label: 'Weather', value: weather.weatherName },
-    { icon: 'fa-cloud', label: 'Description', value: weather.weatherDescription },
+    { icon: 'fa-cloud-sun', label: 'Weather', value: weather.weatherDescription },
     { icon: 'fa-temperature-high', label: 'Temperature', value: weather.temperature },
     { icon: 'fa-wind', label: 'Wind Speed', value: weather.windSpeed },
     { icon: 'fa-eye', label: 'Visibility', value: weather.visibility },
@@ -25,11 +24,11 @@
 
   onMount(async () => {
     weather = await weatherService.getWeather(lat, lng);
-    console.log(weather);
-    // update attributes
+
+    weather.weatherDescription = weather.weatherDescription.charAt(0).toUpperCase() + weather.weatherDescription.slice(1);
+
     attributes = [
-      { icon: 'fa-cloud-sun', label: 'Weather', value: weather.weatherName },
-      { icon: 'fa-cloud', label: 'Description', value: weather.weatherDescription },
+      { icon: 'fa-cloud-sun', label: 'Weather', value: weather.weatherDescription },
       { icon: 'fa-temperature-high', label: 'Temperature', value: weather.temperature },
       { icon: 'fa-wind', label: 'Wind Speed', value: weather.windSpeed },
       { icon: 'fa-eye', label: 'Visibility', value: weather.visibility },
@@ -40,15 +39,21 @@
 </script>
 
 <div class="container">
-  <div class="notification">
+  <div class="columns is-multiline">
     {#each attributes as { icon, label, value }}
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <i class="fas {icon} fa-lg"></i>
-          </div>
-          <div class="level-item">
-            <p>{label}: {value}</p>
+      <div class="column is-full">
+        <div class="card">
+          <div class="card-content">
+            <div class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <i class="fas {icon} fa-lg"></i>
+                </div>
+                <div class="level-item">
+                  <p>{label}: {value}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

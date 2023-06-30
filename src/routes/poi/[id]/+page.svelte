@@ -111,8 +111,6 @@
     <MainNavigator/>
 </Header>
 
-<Weather lat={placemark?.lat} lng={placemark?.lng}/>
-
 <div class="card box m-2">
     {#if placemark && user}
         {#each [placemark] as p (p)}
@@ -134,7 +132,6 @@
             <div class="card-content">
                 <div class="content">
                     <div class="columns">
-
                         <div class="column">
                             <PlacemarkMap id="street-map" marker={p} setAll={false} zoom={15} height={50}/>
                         </div>
@@ -151,66 +148,69 @@
                         </div>
 
                         <div class="column is-half">
-                            <p id="description" contenteditable={isEditable} on:input={updateValues}> {editableValuesList["description"] } </p>
-
-                            <br/>
-
-                            <p> Category: <span id="category" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["category"]}</span> </p>
-
-                            <table class="table is-fullwidth table is-bordered table is-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Latitude</td>
-                                        <td id="lat" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lat"]}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Longitude</td>
-                                        <td id="lng" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lng"]}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                            <table class="table is-fullwidth table is-bordered table is-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Owner</td>
-                                        <td>{user.firstName + user.lastName}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>e-Mail</td>
-                                        <td>{user.email}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            {#if isEditable}
-                                <ImageSelect fileName="Select a File" showMessageImageUploadStatus={showMessageImageUploadStatus} imageUploadSuccess={imageUploadSuccess}/>
-                            {/if}
-
-                            {#each p.image_list as img}
-                                {#if isEditable}
-                                    <div class="card my-3 py-3">
-                                        <div class="card-image">
-                                            <figure class="image is-256x256">
-                                                <img src={img} alt="">
-                                            </figure>
-                                        </div>
-                                        <div class="card-content">
-                                            <button class="button is-danger ml-2" on:click={() => deleteImage(img)}>
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                {/if}
-                                {#if !isEditable}
-                                    <figure class="image is-256x256">
-                                        <img src={img} alt="">
-                                    </figure>
-                                {/if}
-                            {/each}
+                            <Weather lat={placemark?.lat} lng={placemark?.lng}/>
                         </div>
+                    </div>
+                    <div class="box">
+                        <p id="description" contenteditable={isEditable} on:input={updateValues}> {editableValuesList["description"] } </p>
 
+                        <br/>
+
+
+                        <p> Category: <span id="category" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["category"]}</span> </p>
+
+                        <table class="table is-fullwidth table is-bordered table is-striped">
+                            <tbody>
+                            <tr>
+                                <td>Latitude</td>
+                                <td id="lat" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lat"]}</td>
+                            </tr>
+                            <tr>
+                                <td>Longitude</td>
+                                <td id="lng" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lng"]}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <table class="table is-fullwidth table is-bordered table is-striped">
+                            <tbody>
+                            <tr>
+                                <td>Owner</td>
+                                <td>{user.firstName + user.lastName}</td>
+                            </tr>
+                            <tr>
+                                <td>e-Mail</td>
+                                <td>{user.email}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        {#if isEditable}
+                            <ImageSelect fileName="Select a File" showMessageImageUploadStatus={showMessageImageUploadStatus} imageUploadSuccess={imageUploadSuccess}/>
+                        {/if}
+
+                        {#each p.image_list as img}
+                            {#if isEditable}
+                                <div class="card my-3 py-3">
+                                    <div class="card-image">
+                                        <figure class="image is-256x256">
+                                            <img src={img} alt="">
+                                        </figure>
+                                    </div>
+                                    <div class="card-content">
+                                        <button class="button is-danger ml-2" on:click={() => deleteImage(img)}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            {/if}
+                            {#if !isEditable}
+                                <figure class="image is-256x256">
+                                    <img src={img} alt="">
+                                </figure>
+                            {/if}
+                        {/each}
                     </div>
                 </div>
             </div>
