@@ -5,6 +5,7 @@
     import {get} from "svelte/store";
 
     export let fileName = "Image Name";
+    let fileURL = "";
     let files;
     export let showMessageImageUploadStatus = false;
     export let imageUploadSuccess;
@@ -12,7 +13,9 @@
     function handleFileChange(event) {
         setTimeout(() => {
             console.log("files", files);
-            fileName  = URL.createObjectURL(files[0]);
+            fileURL  = URL.createObjectURL(files[0]);
+            fileName = files[0].name;
+            console.log("fileName", fileName);
         }, 100);
     }
 
@@ -54,7 +57,7 @@
     {/if}
 
     {#if files && files.length > 0}
-        <img src={fileName} alt="Selected"/>
+        <img src={fileURL} alt="Selected"/>
 
         <button class="button my-2 is-primary" on:click={upload}>
             <i class="fas fa-cloud-upload-alt mr-2"></i>

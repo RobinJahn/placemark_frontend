@@ -151,12 +151,10 @@
                             <Weather lat={placemark?.lat} lng={placemark?.lng}/>
                         </div>
                     </div>
+
                     <div class="box">
                         <p id="description" contenteditable={isEditable} on:input={updateValues}> {editableValuesList["description"] } </p>
-
                         <br/>
-
-
                         <p> Category: <span id="category" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["category"]}</span> </p>
 
                         <table class="table is-fullwidth table is-bordered table is-striped">
@@ -171,7 +169,6 @@
                             </tr>
                             </tbody>
                         </table>
-
 
                         <table class="table is-fullwidth table is-bordered table is-striped">
                             <tbody>
@@ -214,13 +211,12 @@
                     </div>
                 </div>
             </div>
-
-        {:else}
-            <div class="card-content">
-                <div class="content">
-                    <p class="has-text-centered is-size-3">Loading...</p>
-                </div>
-            </div>
         {/each}
+    {:else}
+        <div class="card-content">
+            <div class="content">
+                <p class="has-text-centered is-size-3">Loading...</p>
+            </div>
+        </div>
     {/if}
 </div>
