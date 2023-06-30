@@ -22,6 +22,9 @@
     <a href="/map" class="column ">
         <i class="fas fa-map-marked-alt fa-3x" style="color:rgb(102, 153, 255)"></i>
     </a>
+    <a href="/imagegallery" class="column">
+        <i class="fas fa-images fa-3x" style="color:rgb(255, 153, 51)"></i>
+    </a>
     {#if isAdmin}
         <a href="/admin" class="column">
             <i class="fas fa-users-cog fa-3x" style="color:rgb(255, 102, 102)"></i>
