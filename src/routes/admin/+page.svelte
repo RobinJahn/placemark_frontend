@@ -12,6 +12,8 @@
     let chartType = "bar";
     let chartTypeSelected = chartType;
     let chartTypes = ["line", "bar", "pie", "percentage", "heatmap"];
+    const colors = ['#8F00FF', '#d200ff'];
+    let labels = ['Factual Data', 'Forecast'];
 
     onMount( async () => {
         totalUsers = (await placemarkService.getPlacemarks()).length;
@@ -28,13 +30,13 @@
     <MainNavigator />
 </Header>
 
-
 <div class="box m-3">
     <h1 class="title is-3">Statistics</h1>
     <div class="columns is-vcentered">
         <div class="column is-one-quarter">
             <h1 class="subtitle is-5">Select Chart Type</h1>
         </div>
+
         <div class="field column">
             <div class="control">
                 <div class="select is-fullwidth">
@@ -46,6 +48,25 @@
                     </select>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="m-3">
+        <h1 class="title is-4">Legend:</h1>
+        <div class="columns">
+            {#each colors as color, i}
+                <div class="column is-narrow">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <i class="fas fa-circle fa-lg" style="color: {color};"></i>
+                            </div>
+                            <div class="level-item">
+                                <p>{labels[i]}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/each}
         </div>
     </div>
 </div>
@@ -76,6 +97,9 @@
             </div>
         </div>
     {/if}
+    <div class="box m-3">
+        <Statistics type="login"  title="Usage" chartType={chartType}/>
+    </div>
 {/key}
 
 <UserList />
