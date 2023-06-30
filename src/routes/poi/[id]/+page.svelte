@@ -8,6 +8,8 @@
     import ImageSelect from "$lib/ImageSelect.svelte";
     import {imageUploadSuccessful} from "../../../stores.js";
     import {get} from "svelte/store";
+    import { weatherService } from "../../../services/weather-service.js";
+    import Weather from "./Weather.svelte";
 
     let id;
     let placemark;
@@ -26,6 +28,8 @@
 
     let showMessageImageUploadStatus = false;
     let imageUploadSuccess = false;
+
+    let weather;
 
     onMount(load);
 
@@ -55,7 +59,7 @@
         isEditable = false;
 
         placemark = await placemarkService.getPlacemark(id);
-        placemarkLocation = {lat: placemark.lat, lng: placemark.lng};
+        placemarkLocation = { lat: placemark.lat, lng: placemark.lng };
 
         editableValuesList["title"] = placemark.name;
         editableValuesList["description"] = placemark.description;
@@ -106,6 +110,8 @@
 <Header>
     <MainNavigator/>
 </Header>
+
+<Weather lat={placemark?.lat} lng={placemark?.lng}/>
 
 <div class="card box m-2">
     {#if placemark && user}
