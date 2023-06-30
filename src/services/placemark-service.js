@@ -6,22 +6,32 @@ import { user, latestPlacemark } from "../stores";
 
 export const placemarkService = {
     // baseUrl: "https://charmed-crystalline-allosaurus.glitch.me/",
-    baseUrl: "http://localhost:4000",
     // baseUrl: "https://placemark-backend.onrender.com",
+    baseUrl: "http://localhost:4000",
 
     async login(email, password) {
         try {
             const response = await axios.post(`${this.baseUrl}/api/users/authenticate`, { email, password });
             axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
-            if (response.data.success) {
-                user.set({
-                    email: email,
-                    token: response.data.token
-                });
-                localStorage.user = JSON.stringify({ email: email, token: response.data.token });
-                return true;
+            if (!response.data.success) {
+                return false;
             }
-            return false;
+
+            const userResponse = await this.getUser(response.data._id);
+
+            user.set({
+                email: email,
+                token: response.data.token,
+                isAdmin: userResponse.isAdmin
+            });
+            localStorage.user = JSON.stringify({
+                email: email,
+                token: response.data.token,
+                isAdmin: userResponse.isAdmin
+            });
+            return true;
+
+
         } catch (error) {
             console.log(error);
             return false;
@@ -52,7 +62,8 @@ export const placemarkService = {
     async logout() {
         user.set({
             email: "",
-            token: ""
+            token: "",
+            isAdmin: false
         });
         axios.defaults.headers.common["Authorization"] = "";
         localStorage.removeItem("user");
@@ -64,7 +75,8 @@ export const placemarkService = {
             const savedUser = JSON.parse(userCredentials);
             user.set({
                 email: savedUser.email,
-                token: savedUser.token
+                token: savedUser.token,
+                isAdmin: savedUser.isAdmin
             });
             axios.defaults.headers.common["Authorization"] = "Bearer " + savedUser.token;
         }
@@ -151,5 +163,39 @@ export const placemarkService = {
             console.log(error)
             return [];
         }
-    }
+    },
+
+    // admin functions
+
+    async deleteUser(id) {
+        try {
+            let result = await axios.delete(this.baseUrl + "/api/users/" + id);
+            return result.data;
+        } catch (error) {
+            console.log(error)
+            return [];
+        }
+    },
+
+    async getUsers() {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/users");
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    },
+
+    async getStatistics(type) {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/statistics", {
+                params: {
+                    type: type
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    },
 };
