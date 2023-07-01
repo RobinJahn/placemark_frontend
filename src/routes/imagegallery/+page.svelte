@@ -12,7 +12,6 @@
     async function loadPlacemarks() {
         // get all placemarks
         let placemarks = await placemarkService.getPlacemarks();
-        console.log(placemarks);
 
         for (let placemark of placemarks) {
             // create list if not exists

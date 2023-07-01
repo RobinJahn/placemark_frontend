@@ -42,7 +42,6 @@
 
         const newHeatmapData = await prepareHeatmapData(newData);
         dataForHeatmap = newHeatmapData;
-        console.log(dataForHeatmap);
 
         if (newData.labels.length === 0) {
             data = newData;

@@ -197,4 +197,14 @@ export const placemarkService = {
             return [];
         }
     },
+
+    async deletePlacemark(id) {
+        try {
+            let result = await axios.delete(this.baseUrl + "/api/placemarks/" + id);
+            return result.data;
+        } catch (error) {
+            console.log(error)
+            return [];
+        }
+    }
 };

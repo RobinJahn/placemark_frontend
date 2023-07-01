@@ -8,8 +8,8 @@
     import ImageSelect from "$lib/ImageSelect.svelte";
     import {imageUploadSuccessful} from "../../../stores.js";
     import {get} from "svelte/store";
-    import { weatherService } from "../../../services/weather-service.js";
     import Weather from "./Weather.svelte";
+    import { goto } from "$app/navigation";
 
     let id;
     let placemark;
@@ -98,6 +98,11 @@
         }
     }
 
+    async function deletePlacemark() {
+        await placemarkService.deletePlacemark(id);
+        await goto("/map");
+    }
+
     $: {
         let reloadID = $page.params.id;
         if (reloadID !== id) {
@@ -119,6 +124,12 @@
                    on:input={updateValues}>
                     {editableValuesList["title"]}
                 </p>
+
+                {#if isEditable}
+                    <button class="button my-auto mr-3 is-danger" on:click={deletePlacemark}>
+                        Delete Placemark
+                    </button>
+                {/if}
 
                 <button class="button my-auto mr-3" on:click={toggleEditable}>
                     {#if isEditable}
