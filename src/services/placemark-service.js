@@ -4,9 +4,9 @@ import axios from "axios";
 import { user, latestPlacemark } from "../stores";
 
 export const placemarkService = {
-    // baseUrl: "https://charmed-crystalline-allosaurus.glitch.me/",
-    // baseUrl: "https://placemark-backend.onrender.com",
-    baseUrl: "http://localhost:4000",
+    //baseUrl: "https://charmed-crystalline-allosaurus.glitch.me/",
+    baseUrl: "https://placemark-backend.onrender.com",
+    // baseUrl: "http://localhost:4000",
 
     async login(email, password) {
         try {
