@@ -9,6 +9,7 @@
     let files;
     export let showMessageImageUploadStatus = false;
     export let imageUploadSuccess;
+    let isUploading = false;
 
     function handleFileChange(event) {
         setTimeout(() => {
@@ -21,7 +22,8 @@
 
     async function upload() {
         console.log("uploading");
-        //get id from path
+        isUploading = true;
+
         const id = $page.params.id;
 
         let formData = new FormData();
@@ -38,6 +40,7 @@
             console.log("failure");
             imageUploadSuccessful.set({success: false});
         }
+        isUploading = false;
     }
 </script>
 
@@ -59,10 +62,17 @@
     {#if files && files.length > 0}
         <img src={fileURL} alt="Selected"/>
 
-        <button class="button my-2 is-primary" on:click={upload}>
-            <i class="fas fa-cloud-upload-alt mr-2"></i>
-            Upload the image
-        </button>
+        {#if isUploading}
+            <button class="button my-2 is-primary">
+                <i class="fas fa-cloud-upload-alt mr-2"></i>
+                Uploading...
+            </button>
+        {:else}
+            <button class="button my-2 is-primary" on:click={upload}>
+                <i class="fas fa-cloud-upload-alt mr-2"></i>
+                Upload the image
+            </button>
+        {/if}
     {/if}
 
     <div class="file has-name is-fullwidth">

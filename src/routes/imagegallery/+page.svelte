@@ -24,8 +24,21 @@
                 categoryAndImages[placemark.category].push(image);
             }
         }
+    }
 
-        console.log(categoryAndImages);
+    function hasImages(categoryAndImages){
+      if (Object.keys(categoryAndImages).length === 0){
+        return false;
+      }
+      else{
+        let foundImage = false;
+        for (let category in categoryAndImages){
+          if (categoryAndImages[category].length > 0){
+            foundImage = true;
+          }
+        }
+        return foundImage;
+      }
     }
 </script>
 
@@ -44,4 +57,9 @@
             </section>
         {/if}
     {/each}
+    {#if hasImages(categoryAndImages) === false}
+        <div class="has-text-centered">
+            <h1 class="title">You haven't uploaded any photos yet</h1>
+        </div>
+    {/if}
 </div>
