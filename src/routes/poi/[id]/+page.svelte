@@ -13,7 +13,6 @@
 
     let id;
     let placemark;
-    let user;
     let placemarkLocation;
 
     let isEditable = false;
@@ -66,8 +65,6 @@
         editableValuesList["category"] = placemark.category;
         editableValuesList["lat"] = placemark.lat;
         editableValuesList["lng"] = placemark.lng;
-
-        user = await placemarkService.getUser(placemark.user);
     }
 
     async function toggleEditable() {
@@ -117,7 +114,7 @@
 </Header>
 
 <div class="card box m-2">
-    {#if placemark && user}
+    {#if placemark}
         {#each [placemark] as p (p)}
             <header class="card-header">
                 <p id="title" class="card-header-title is-size-3 has-text-centered is-centered" contenteditable={isEditable}
@@ -177,19 +174,6 @@
                             <tr>
                                 <td>Longitude</td>
                                 <td id="lng" contenteditable={isEditable} on:input={updateValues}>{editableValuesList["lng"]}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <table class="table is-fullwidth table is-bordered table is-striped">
-                            <tbody>
-                            <tr>
-                                <td>Owner</td>
-                                <td>{user.firstName + user.lastName}</td>
-                            </tr>
-                            <tr>
-                                <td>e-Mail</td>
-                                <td>{user.email}</td>
                             </tr>
                             </tbody>
                         </table>
