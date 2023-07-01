@@ -1,5 +1,5 @@
 <script>
-    import {afterUpdate, onMount} from "svelte";
+    import {onMount} from "svelte";
     import {placemarkService} from "../services/placemark-service.js";
     import {latestPlacemark} from "../stores.js";
 
@@ -23,9 +23,6 @@
     onMount(load);
 
     async function load() {
-        // Dynamically import leaflet.css
-        await import("leaflet/dist/leaflet.css");
-
         // Dynamically import LeafletMap
         const { LeafletMap } = await import("../services/leaflet-map");
 
