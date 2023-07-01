@@ -30,4 +30,4 @@ The backend for this project can be found at [globelens-backend](https://github.
 - Clone the repository
 - Install dependencies with `npm install`
 - Add a .env File with your Openweathermap API Key Named `VITE_OPENWEATHERMAP_KEY`
-- Run the server with `npm start`
+- Run the server with `npm run dev`
