@@ -1,38 +1,33 @@
-# create-svelte
+# Globe Lens
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+![Globe Lens](static/Logo.png)
 
-## Creating a project
+### Explore Your Journey Through Your Lens
 
-If you're seeing this, you've probably already done this step. Congrats!
+Map Your Memories. Relive Your Adventures. Inspire New Ones.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+![Crate Placemarks](static/screenshotDashboard.png)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+![Show Details](static/screenshotPoiMaps.png)
 
-## Developing
+![Description and Images](static/screenshotDescAndImg.png)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Features
+- Create placemarks on a map
+- Add images and descriptions to placemarks
+- View placemarks on a map
+- Image Gallery
+- (For Admins) Statistics
 
-```bash
-npm run dev
+### Deployment
+This project is deployed at [globelens](https://globelens.netlify.app/)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Corresponding Backend
+The backend for this project can be found at [globelens-backend](https://github.com/RobinJahn/placemark_backend)
 
-## Building
+### Project Setup
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Clone the repository
+- Install dependencies with `npm install`
+- Add a .env File with your Openweathermap API Key Named `VITE_OPENWEATHERMAP_KEY`
+- Run the server with `npm start`
