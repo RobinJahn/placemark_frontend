@@ -25,6 +25,10 @@
         "lng": null
     }
 
+    let cursorPosition = 0;
+
+    let idOfLastElementEdited = null;
+
     let showMessageImageUploadStatus = false;
     let imageUploadSuccess = false;
 
@@ -84,7 +88,12 @@
     }
 
     function updateValues(event) {
+        // Save the current cursor position
+        let selection = window.getSelection();
+        cursorPosition = selection.focusOffset;
+
         const id = event.target.id;
+        idOfLastElementEdited = id;
         editableValuesList[id] = event.target.innerText;
     }
 
@@ -104,6 +113,15 @@
         let reloadID = $page.params.id;
         if (reloadID !== id) {
             load();
+        }
+        if (isEditable && idOfLastElementEdited) {
+            let element = document.getElementById(idOfLastElementEdited);
+            let range = document.createRange();
+            let sel = window.getSelection();
+            range.setStart(element.childNodes[0], cursorPosition);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
         }
     }
 </script>
