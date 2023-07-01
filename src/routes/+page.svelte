@@ -10,7 +10,7 @@
 <div class="columns is-vcentered content">
     <div class="column has-text-centered">
         <div class="box">
-            <div class="columns">
+            <div class="columns is-vcentered">
                 <div class="column is-one-third">
                     <figure class="image">
                         <img src="/Logo.png" alt="logo">
