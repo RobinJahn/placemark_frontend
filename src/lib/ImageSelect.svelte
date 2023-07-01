@@ -13,10 +13,8 @@
 
     function handleFileChange(event) {
         setTimeout(() => {
-            console.log("files", files);
             fileURL  = URL.createObjectURL(files[0]);
             fileName = files[0].name;
-            console.log("fileName", fileName);
         }, 100);
     }
 
