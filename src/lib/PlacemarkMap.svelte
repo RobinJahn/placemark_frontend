@@ -84,4 +84,4 @@
     });
 </script>
 
-<div class="box" id={id} style="height:{height}vh"/>
+<div class="box" id={id} style="height:{height}vh"></div>

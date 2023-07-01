@@ -4,7 +4,7 @@
     import WelcomeNavigator from '$lib/WelcomeNavigator.svelte';
 </script>
 
-<Header>
+<Header subTitle="Sign Up">
     <WelcomeNavigator />
 </Header>
 
@@ -16,6 +16,6 @@
         </div>
     </div>
     <div class="column has-text-centered">
-        <img alt="homer" src="/Suitcase1.png" width="600" />
+        <img class="box" alt="suitcase" src="/Suitcase1.png" width="600" />
     </div>
 </div>

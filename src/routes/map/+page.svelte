@@ -5,8 +5,10 @@
 
 </script>
 
-<Header>
+<Header subTitle="Map">
     <MainNavigator />
 </Header>
 
-<PlacemarkMap setAll={true}/>
+<div class="box">
+    <PlacemarkMap setAll={true}/>
+</div>

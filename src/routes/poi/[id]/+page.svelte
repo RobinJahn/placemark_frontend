@@ -112,7 +112,7 @@
 </script>
 
 
-<Header>
+<Header subTitle="Placemark">
     <MainNavigator/>
 </Header>
 

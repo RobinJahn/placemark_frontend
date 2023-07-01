@@ -42,7 +42,7 @@
 </script>
 
 
-<Header>
+<Header subTitle="Image Gallery">
     <MainNavigator/>
 </Header>
 

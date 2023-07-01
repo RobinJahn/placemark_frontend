@@ -6,13 +6,15 @@
     import PlacemerkForm from "./PlacemerkForm.svelte";
 </script>
 
-<Header>
+<Header subTitle="Dashboard">
     <MainNavigator />
 </Header>
 
 <div class="columns is-vcentered">
-    <div class="column has-text-centered">
-        <PlacemarkMap setAll={true}/>
+    <div class="column">
+        <div class="box">
+            <PlacemarkMap setAll={true}/>
+        </div>
     </div>
     <div class="column box has-text-centered">
         <h1 class="title is-4">Create a new Placemark</h1>

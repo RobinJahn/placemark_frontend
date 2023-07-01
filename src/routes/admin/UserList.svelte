@@ -31,7 +31,7 @@
         </div>
     </article>
 {:else}
-    <div class="box m-3">
+    <div class="box">
         <h1 class="title has-text-centered">Users</h1>
         <table class="table is-fullwidth is-hoverable m-3">
             <thead>

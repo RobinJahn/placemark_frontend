@@ -11,7 +11,7 @@
 
     let chartType = "line";
     let chartTypeSelected = chartType;
-    let chartTypes = ["line", "bar", "pie", "percentage", "heatmap"];
+    let chartTypes = ["line", "bar", "heatmap"];
     const colors = ['#8F00FF', '#d200ff'];
     let labels = ['Factual Data', 'Forecast'];
 
@@ -26,13 +26,13 @@
 
 </script>
 
-<Header>
+<Header subTitle="Statistics">
     <MainNavigator />
 </Header>
 
-<div class="box m-3">
+<div class="box">
     <h1 class="title is-3">Statistics</h1>
-    <div class="columns is-vcentered">
+    <div class="columns is-multiline is-vcentered">
         <div class="column is-one-quarter">
             <h1 class="subtitle is-5">Select Chart Type</h1>
         </div>
@@ -50,54 +50,60 @@
             </div>
         </div>
     </div>
-    <div class="m-3">
-        <h1 class="title is-4">Legend:</h1>
-        <div class="columns">
-            {#each colors as color, i}
-                <div class="column is-narrow">
-                    <div class="level">
-                        <div class="level-left">
-                            <div class="level-item">
-                                <i class="fas fa-circle fa-lg" style="color: {color};"></i>
-                            </div>
-                            <div class="level-item">
-                                <p>{labels[i]}</p>
+    {#if chartType !== "heatmap"}
+        <div class="m-3">
+            <h1 class="title is-4">Legend:</h1>
+            <div class="columns">
+                {#each colors as color, i}
+                    <div class="column is-narrow">
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <i class="fas fa-circle fa-lg" style="color: {color};"></i>
+                                </div>
+                                <div class="level-item">
+                                    <p>{labels[i]}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {/each}
+                {/each}
+            </div>
         </div>
-    </div>
+    {/if}
 </div>
 
 {#key chartType}
     {#if chartType === "heatmap"}
-        <div class="box m-3 has-text-centered is-full-width">
+        <div class="box has-text-centered is-full-width">
             <Statistics type="user" title="New Users per Day" chartType={chartType}/>
 
             <h1 class="title is-5 my-3">Total Users: {totalUsers}</h1>
         </div>
-        <div class="box m-3  has-text-centered">
+        <div class="box has-text-centered">
             <Statistics type="placemark"  title="New Placemarks per Day" chartType={chartType}/>
 
             <h1 class="title is-5 my-3">Total Placemarks: {totalPlacemarks}</h1>
         </div>
     {:else}
-        <div class="columns m-1">
-            <div class="column box m-3 has-text-centered">
-                <Statistics type="user" title="New Users per Day" chartType={chartType}/>
+        <div class="columns is-multiline">
+            <div class="column is-half-desktop is-full-tablet">
+                <div class="box has-text-centered">
+                    <Statistics type="user" title="New Users per Day" chartType={chartType}/>
 
-                <h1 class="title is-5 my-3">Total Users: {totalUsers}</h1>
+                    <h1 class="title is-5 my-3">Total Users: {totalUsers}</h1>
+                </div>
             </div>
-            <div class="column box m-3  has-text-centered">
-                <Statistics type="placemark"  title="New Placemarks per Day" chartType={chartType}/>
+            <div class="column has-text-centered is-half-desktop is-full-tablet">
+                <div class="box has-text-centered">
+                    <Statistics type="placemark"  title="New Placemarks per Day" chartType={chartType}/>
 
-                <h1 class="title is-5 my-3">Total Placemarks: {totalPlacemarks}</h1>
+                    <h1 class="title is-5 my-3">Total Placemarks: {totalPlacemarks}</h1>
+                </div>
             </div>
         </div>
     {/if}
-    <div class="box m-3">
+    <div class="box">
         <Statistics type="login"  title="Usage" chartType={chartType}/>
     </div>
 {/key}

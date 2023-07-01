@@ -4,13 +4,13 @@
     import WelcomeNavigator from '$lib/WelcomeNavigator.svelte';
 </script>
 
-<Header>
+<Header subTitle="Login">
     <WelcomeNavigator />
 </Header>
 
 <div class="columns">
     <div class="column has-text-centered">
-        <img alt="homer" src="/Compass.png" width="600" />
+        <img class="box" alt="compass" src="/Compass.png" width="600" />
     </div>
     <div class="column">
         <div class="box">
