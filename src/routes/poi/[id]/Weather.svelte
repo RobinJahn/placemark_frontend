@@ -25,8 +25,6 @@
   onMount(async () => {
     weather = await weatherService.getWeather(lat, lng);
 
-    weather.weatherDescription = weather.weatherDescription.charAt(0).toUpperCase() + weather.weatherDescription.slice(1);
-
     attributes = [
       { icon: 'fa-cloud-sun', label: 'Weather', value: weather.weatherDescription },
       { icon: 'fa-temperature-high', label: 'Temperature', value: weather.temperature },
