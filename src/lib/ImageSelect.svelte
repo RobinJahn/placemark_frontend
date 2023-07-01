@@ -60,8 +60,9 @@
     {/if}
 
     {#if files && files.length > 0}
-        <img src={fileURL} alt="Selected"/>
-
+        <div class="column">
+            <img src={fileURL} alt="Selected"/>
+        </div>
         {#if isUploading}
             <button class="button my-2 is-primary">
                 <i class="fas fa-cloud-upload-alt mr-2"></i>
