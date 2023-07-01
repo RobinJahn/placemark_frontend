@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import { placemarkService } from "../../services/placemark-service";
+  import { goto } from "$app/navigation";
+  import { placemarkService } from "../../services/placemark-service";
 
-    let firstName = "";
-    let lastName = "";
-    let email = "";
-    let password = "";
-    let errorMessage = "";
+  let firstName = "";
+  let lastName = "";
+  let email = "";
+  let password = "";
+  let errorMessage = "";
 
-    async function signup() {
-        console.log(`attempting to sign up email: ${email}`);
-        let success = await placemarkService.signup(firstName, lastName, email, password);
-        if (success) {
-            goto("/map");
-        } else {
-            errorMessage = "Error Trying to sign up";
-        }
+  async function signup() {
+    console.log(`attempting to sign up email: ${email}`);
+    let response = await placemarkService.signup(firstName, lastName, email, password);
+    if (response.success) {
+      goto("/map");
+    } else {
+      errorMessage = response.message;
     }
+  }
 </script>
 
 <form on:submit|preventDefault={signup}>
@@ -24,11 +24,13 @@
         <div class="field-body">
             <div class="field">
                 <label for="firstname" class="label">First Name</label>
-                <input bind:value={firstName} id="firstname" class="input" type="text" placeholder="Enter first name" name="firstName">
+                <input bind:value={firstName} id="firstname" class="input" type="text" placeholder="Enter first name"
+                       name="firstName">
             </div>
             <div class="field">
                 <label for="lastname" class="label">Last Name </label>
-                <input bind:value={lastName}  id="lastname" class="input" type="text" placeholder="Enter last name" name="lastName">
+                <input bind:value={lastName} id="lastname" class="input" type="text" placeholder="Enter last name"
+                       name="lastName">
             </div>
         </div>
     </div>
@@ -38,7 +40,8 @@
     </div>
     <div class="field">
         <label for="password" class="label">Password</label>
-        <input bind:value={password} id="password" class="input" type="password" placeholder="Enter Password" name="password">
+        <input bind:value={password} id="password" class="input" type="password" placeholder="Enter Password"
+               name="password">
     </div>
     <div class="field is-grouped">
         <button class="button is-link">Sign Up</button>

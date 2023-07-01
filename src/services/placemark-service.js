@@ -32,12 +32,15 @@ export const placemarkService = {
 
 
         } catch (error) {
-            console.log(error);
             return false;
         }
     },
 
     async signup(firstName, lastName, email, password) {
+        const response = {
+            success: false,
+            message: ""
+        }
         try {
             const userDetails = {
                 firstName: firstName,
@@ -47,15 +50,26 @@ export const placemarkService = {
             };
             await axios.post(this.baseUrl + "/api/users", userDetails);
 
+        } catch (error) {
+            if (error.response.status !== 409) {
+                response.message = "There was an error signing up.";
+                return response;
+            }
+        }
+
+        try {
             let loginWorked = await this.login(email, password)
             if (!loginWorked) {
-                return false;
+                response.message = "A user with that email already exists.";
+                return response;
             }
-
-            return true;
         } catch (error) {
-            return false;
+            response.message = "There was an error logging in.";
+            return response;
         }
+
+        response.success = true;
+        return response;
     },
 
     async logout() {
