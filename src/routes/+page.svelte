@@ -30,7 +30,7 @@
 
     <div class="columns is-vcentered">
         <div class="column is-two-thirds">
-            <figure class="image">
+            <figure class="image box">
                 <img src="/screenshotDashboard.png" alt="screen shot dashboard">
             </figure>
         </div>
@@ -46,7 +46,7 @@
             <p>With each Point of Interest, Globe Lens provides three unique map views and real-time weather information. Explore different aspects of your selected locations and stay updated with current weather conditions. Dive into the details with Globe Lens and let every journey be well-informed and immersive.</p>
         </div>
         <div class="column is-two-thirds">
-            <figure class="image">
+            <figure class="image box">
                 <img src="/screenshotPoiMaps.png" alt="screen shot maps for poi">
             </figure>
         </div>
@@ -54,7 +54,7 @@
 
     <div class="columns is-vcentered">
         <div class="column is-two-thirds">
-            <figure class="image">
+            <figure class="image box">
                 <img src="/screenshotDescAndImg.png" alt="Description and Uploaded Images">
             </figure>
         </div>
